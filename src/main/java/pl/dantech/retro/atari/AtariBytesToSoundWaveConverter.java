@@ -3,8 +3,14 @@ package pl.dantech.retro.atari;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.mutable.MutableLong;
 
+import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.nio.ByteBuffer;
 
@@ -94,6 +100,11 @@ public class AtariBytesToSoundWaveConverter {
         }
 
         return output.toByteArray();
+    }
+
+    public static int write(byte[] dataToWrite, AudioFormat audioFormat, AudioFileFormat.Type fileType, OutputStream outputStream) throws IOException {
+        AudioInputStream audioInputStream = new AudioInputStream(new ByteArrayInputStream(dataToWrite), audioFormat, dataToWrite.length / audioFormat.getFrameSize());
+        return AudioSystem.write(audioInputStream, fileType, outputStream);
     }
 
     private static int calcInitialBufferSize(AtariTapeFile file, int sampleRate, int samplesPerBit) {
