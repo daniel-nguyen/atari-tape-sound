@@ -40,7 +40,7 @@ public class AtariTapeRecord {
         }
 
         // checksum at the end, because it contains 2 markers, control byte and 128 bytes of data
-        recordData[dataLength+3] = calculateChecksum(recordData, 0, RECORD_SIZE-1);
+        recordData[DATA_CAPACITY+3] = calculateChecksum2(recordData, 0, RECORD_SIZE-1);
     }
 
     public boolean isPartialRecord() {
@@ -51,19 +51,40 @@ public class AtariTapeRecord {
         return dataLength==0;
     }
 
-    private static byte calculateChecksum(byte[] buffer, int offset, int dataLength) {
+    static byte calculateChecksum(byte[] buffer, int offset, int dataLength) {
         int result = 0;
         for (int i = 0; i < dataLength; i++) {
-            result += (buffer[offset+i] & 0xff);
+            int value = buffer[offset + i] & 0xff;
+            result += value;
+            if (result>255) {
+                result &= 0xff;
+                result++;
+            }
         }
         return (byte)result;
     }
+
+    static byte calculateChecksum2(byte[] buffer, int offset, int dataLength) {
+        int sum = 0;
+        for (int i = 0; i < dataLength; i++) {
+            int value = buffer[offset + i] & 0xff;
+            sum += value;
+        }
+
+        while(sum>255) {
+            sum = sum%256 + sum/256;
+        }
+
+        return (byte)sum;
+    }
+
 
     public int getPreRecordWriteToneMillis() {
         return 3000; //TODO make parametrable
     }
 
     public int getPostRecordGapMillis() {
-        return 250; //TODO make parametrable
+        // up to 1 second of garbage
+        return 1000; //TODO make parametrable
     }
 }

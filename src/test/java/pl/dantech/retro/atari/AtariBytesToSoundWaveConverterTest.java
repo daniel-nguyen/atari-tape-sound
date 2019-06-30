@@ -28,7 +28,7 @@ class AtariBytesToSoundWaveConverterTest {
         AtariTapeFile file = new AtariTapeFile(toByteArray(getResource("some_data.txt")));
         int baud = 600;
         byte[] ravWave = AtariBytesToSoundWaveConverter.convert(audioFormat, file, baud);
-        try (OutputStream outputstream = new BufferedOutputStream(new FileOutputStream("/home/danielos/temp/sound.wav"), 10000)) {
+        try (OutputStream outputstream = new BufferedOutputStream(new FileOutputStream("/home/danielos/source/atari/wav2cas/SOUND.WAV"), 100000)) {
             AtariBytesToSoundWaveConverter.write(ravWave, audioFormat, AudioFileFormat.Type.WAVE, outputstream);
             outputstream.flush();
         }
