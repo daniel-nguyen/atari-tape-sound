@@ -12,6 +12,11 @@ import static java.nio.ByteOrder.BIG_ENDIAN;
 import static java.nio.ByteOrder.LITTLE_ENDIAN;
 
 public class AtariBytesToSoundWaveConverter {
+//    http://home.planet.nl/~ernest/atarixle.html
+//    http://a8cas.sourceforge.net/format-cas.html
+//    https://www.atariarchives.org/dere/chaptC.php
+//    https://www.atariarchives.org/mapping/memorymap.php
+
     private static final int MARK_FREQ = 5327;
     private static final int SPACE_FREQ = 3995;
     private static final int SCALE = 1000;
