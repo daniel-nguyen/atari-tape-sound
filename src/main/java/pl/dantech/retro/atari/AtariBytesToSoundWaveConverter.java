@@ -23,8 +23,6 @@ public class AtariBytesToSoundWaveConverter {
 //    https://www.atariarchives.org/dere/chaptC.php
 //    https://www.atariarchives.org/mapping/memorymap.php
 
-    private static final int MARK_FREQ = 5327;
-    private static final int SPACE_FREQ = 3995;
     private static final int SCALE = 1000;
     private static final int SAMPLE_SIZE_IN_BITS = 16;
     private static final int SAMPLE_SIZE_IN_BYTES = SAMPLE_SIZE_IN_BITS / 8;
@@ -63,8 +61,8 @@ public class AtariBytesToSoundWaveConverter {
         final int sampleRate = (int) audioFormat.getSampleRate();
         Validate.isTrue(audioFormat.getSampleSizeInBits()==SAMPLE_SIZE_IN_BITS, "only %d-bits samples supported", SAMPLE_SIZE_IN_BITS);
 
-        final int markMultiplied = sampleRate * SCALE / MARK_FREQ;
-        final int spaceMultiplied = sampleRate * SCALE / SPACE_FREQ;
+        final int markMultiplied = sampleRate * SCALE / AtariConstants.MARK_FREQ;
+        final int spaceMultiplied = sampleRate * SCALE / AtariConstants.SPACE_FREQ;
         final int samplesPerBit = sampleRate / baudRate;
 
         ByteArrayOutputStream output = new ByteArrayOutputStream(calcInitialBufferSize(file, sampleRate, samplesPerBit));
